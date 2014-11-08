@@ -15,10 +15,11 @@ import java.net.Socket;
 public class ServerThread extends Thread
 {
 	private Socket _socket = null;
-	
-	public ServerThread(Socket sock)
+	private App _app = null;
+	public ServerThread(Socket sock, App app)
 	{
 		_socket = sock;
+		_app = app;
 	}
 	
 	@Override
@@ -38,18 +39,21 @@ public class ServerThread extends Thread
 		        else if (str.equals("sleep")) 
 		        {
 		        	sleep(6000);
-		        	String result ="sleep ok\n";
+		        	String result ="receive data: sleep ok\n";
 		        	byte[] data = result.getBytes("UTF-8");
 		        	_socket.getOutputStream().write(data);
 				}
 		        else
 		        {
 		        	sleep(1000);
-		        	String result ="data ok\n";
+		        	String result ="receive data: data ok\n";
 		        	byte[] data = result.getBytes("UTF-8");
 		        	_socket.getOutputStream().write(data);
 		        }
 			}
+			
+			_app.decrConnection();
+			_app.printConnection();
         }
         catch (IOException e)
         {
