@@ -22,8 +22,9 @@ public class App
 	        {
 	        	ServerThread st = new ServerThread(server.accept(), app);
 	        	app.addConnection();
-	        	st.start();
 	        	System.out.println("接受到一个客户端的链接... ...");
+	        	app.printConnection();
+	        	st.start();
 	        }
         }
         catch (IOException e)
