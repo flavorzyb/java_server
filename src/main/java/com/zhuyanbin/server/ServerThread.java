@@ -27,6 +27,15 @@ public class ServerThread extends Thread
 	{
 		try
         {
+		    if (_socket == null)
+		    {
+		        return ;
+		    }
+		    
+		    _socket.setKeepAlive(true);
+		    _socket.setTcpNoDelay(true);
+		    _socket.setSoTimeout(1000);
+		    
 			while((_socket != null) && (_socket.isClosed() == false))
 			{
 				BufferedReader br = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
