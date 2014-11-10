@@ -105,10 +105,20 @@ public class ServerThread extends Thread
         {
 	        e.printStackTrace();
         }
-		finally
+		
+		if (!_socket.isClosed())
 		{
-		    _app.decrConnection();
-            _app.printConnection();
+			try
+            {
+                _socket.close();
+            }
+            catch (IOException e1)
+            {
+                e1.printStackTrace();
+            }
 		}
+		
+	    _app.decrConnection();
+        _app.printConnection();
 	}
 }
