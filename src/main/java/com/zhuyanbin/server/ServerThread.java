@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 /**
@@ -39,6 +40,11 @@ public class ServerThread extends Thread
 		    
 			while((_socket != null) && (_socket.isClosed() == false))
 			{
+				if (_socket.isInputShutdown())
+				{
+					break;
+				}
+				
 			    int len = _socket.getInputStream().available();
 			    if (len > 0)
 			    {
@@ -72,6 +78,17 @@ public class ServerThread extends Thread
 		catch (SocketTimeoutException e)
 		{
 		    try
+            {
+                _socket.close();
+            }
+            catch (IOException e1)
+            {
+                e1.printStackTrace();
+            }
+		}
+		catch (SocketException e) 
+		{
+			try
             {
                 _socket.close();
             }
